@@ -12,7 +12,7 @@ jobs:
   build:
     defaults:
       run:
-        shell: bash -l {0}
+        shell: bash -el {0}
     strategy:
       fail-fast: false
       matrix:
@@ -21,7 +21,7 @@ jobs:
         nm: [opencv-python-headless, sentencepiece]
     runs-on: ${{ matrix.os }}-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: ${{ matrix.py }}
@@ -33,6 +33,6 @@ jobs:
         run: |
           #conda install -yq libiconv
           #conda install -yq mamba
-          mamba install -yq boa anaconda-client conda-build ghapi nbdev 
+          mamba install -yq -vv boa anaconda-client conda-build ghapi nbdev 
       - name: build
-        run: python build.py --pypinm ${{ matrix.nm }}
+        run: python -vv build.py --pypinm ${{ matrix.nm }}
